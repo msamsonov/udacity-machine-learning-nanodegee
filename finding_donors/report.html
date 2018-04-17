@@ -12917,7 +12917,7 @@ SZJas4CQJEmS1JoFhCRJkqTWLCAkSZIktfb/AfJzo1n+O5mOAAAAAElFTkSuQmCC
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: One-hot encode the &#39;features_log_minmax_transform&#39; data using pandas.get_dummies()</span>
-<span class="n">features_final</span> <span class="o">=</span> <span class="n">features_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">features_log_minmax_transform</span><span class="p">)</span>
+<span class="n">features_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">features_log_minmax_transform</span><span class="p">)</span>
 
 <span class="c1"># TODO: Encode the &#39;income_raw&#39; data to numerical values</span>
 <span class="n">income</span> <span class="o">=</span> <span class="p">(</span><span class="n">income_raw</span> <span class="o">==</span> <span class="s1">&#39;&gt;50K&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
@@ -14157,8 +14157,12 @@ Look at the graph at the bottom left from the cell above(the visualization creat
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
-<p>When model is trained, first it creates a decision tree that predicts target value. This tree makes some errors. So, then model creates a tree that corrects the errors of the first tree. Then the third tree corrects errors of first two trees and so on.</p>
-<p>When model predicts the values for the new data, results of all these trees are combined and we get the prediction.</p>
+<p>Here we use method called gradient boosting. It uses bunch of decision trees working together in a tricky manner.</p>
+<p>First let me explain what the decision tree is. Suppose we need to classify animals by their features. We can do it by asking questions. Some questions are good, e.g. is it a bird, is it a mammal, can it swim, etc. Such questions help us to get new information and throw away many options. Some questions are bad because they are too narrow, e.g. is it a penguin or has it fur longer than 10 cm. When we build decision tree, best questions are chosen automatically.</p>
+<p>But nevertheless the tree can make mistakes. So, then we build the second tree that tries to correct the errors of the first tree. In fact it even don't see the original data, but only the errors of the first tree instead. Then we combine these two trees and get more accurate prediction.</p>
+<p>We can continue such a process: build the third tree that tries to correct the errors of first two trees, the fourth tree that correct the first three trees and so on, up to 100 or 500 or 2000 trees.</p>
+<p>When we need to get a prediction for the new data, we use all these trees and combine their answers too.</p>
+<p>This method works really well in lots of situations.</p>
 
 </div>
 </div>
@@ -14364,13 +14368,13 @@ Final F-score on the testing data: 0.7495
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
-<p>I think the most important features should be related to work: workclass, occupation, hours-per-week. Age and education matters too. Obviously good job, age and education should increase amount of money.</p>
+<p>I think the most important features should be related to work: workclass, occupation, hours-per-week. Age and education matters too. Obviously good job, age and education should increase amount of money. So,</p>
 <ol>
-<li>workclass</li>
-<li>occupation</li>
-<li>hours-per-week</li>
-<li>age</li>
-<li>education</li>
+<li>workclass: private jobs should earn more than goverment jobs. 'Without-pay' and 'Never-worked' should earn the least</li>
+<li>occupation: different areas have different mean salary</li>
+<li>hours-per-week: if you work 40 hours/week, probably you will have more money than if you work 10 hours/week</li>
+<li>age: older people have more because have more experience and savings</li>
+<li>education: the higher your education the higher your salary should be</li>
 </ol>
 
 </div>
@@ -14766,9 +14770,10 @@ SZIkDdzf3RmZrA37noYAAAAASUVORK5CYII=
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <p>Both my list and actual results contains information about age, hours-per-week and education.</p>
-<p>I underestimate age factor (4th place in my list, 1st place in reality) and forget about capital gain. Maybe these factors are more important in USA than in my country :)</p>
+<p>Visualization confirms that these things are important.</p>
+<p>I underestimate age factor (4th place in my list, 1st place in reality) and forget about capital gain. Age means more experience and more savings, to it's really important. More capital gain means more income.</p>
 <p>Education feature is one-hot-encoded so education-num turns out to be more robust metric.</p>
-<p>Also I underestimate marriage factor. I agree that it's important.</p>
+<p>Also I underestimate marriage factor. Married people tends to earn more to provide spouse and children with all necessary things.</p>
 
 </div>
 </div>
